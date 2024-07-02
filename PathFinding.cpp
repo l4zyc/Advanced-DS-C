@@ -77,7 +77,7 @@ int moveX[4] = {0, 1, 0, -1};
 void solve() {
     vector<Map *> listMap;
     listMap.push_back(&sMap[startPos.y][startPos.x]);
-    Map* currMap;
+    Map* currMap = nullptr;
 
     while(!listMap.empty()) {
         currMap = listMap[0];
@@ -87,12 +87,18 @@ void solve() {
         if(currMap->value == 'E') break;
 
         for(int i = 0; i < 4; i++) {
-            Map* newMap = &sMap[currMap->currPos.y + moveY[i]][currMap->currPos.x] + moveX[i];
+            int newY = currMap->currPos.y + moveY[i];
+            int newX = currMap->currPos.x + moveX[i];
+
+            if(newY < 0 || newY >= 10 || newX < 0 || newX >= 15) continue;
+
+            Map* newMap = &sMap[newY][newX];
             bool inList = false;
 
             for(int j = 0; j < listMap.size(); j++) {
                 if(listMap[j] == newMap) {
                     inList = true;
+                    break;
                 }
             }
 

@@ -81,13 +81,13 @@ int moveX[4] = {0, 1, 0, -1};
 void solve() {
     vector<Map *> listMap;
     listMap.push_back(&sMap[startPos.y][startPos.x]);
-    Map* currMap;
+    Map* currMap = nullptr;  // Initialize currMap to nullptr
     while(!listMap.empty()) {
         int index = 0;
-        int heu = sqrt(pow(listMap[0]->currPos.x,2) + pow(listMap[0]->currPos.y,2));
+        int heu = abs(listMap[0]->currPos.x - endPos.x) + abs(listMap[0]->currPos.y - endPos.y);
 
         for(int i = 1; i < listMap.size(); i++) {
-            int tempheu = sqrt(pow(listMap[i]->currPos.x,2) + pow(listMap[i]->currPos.y,2));
+            int tempheu = abs(listMap[i]->currPos.x - endPos.x) + abs(listMap[i]->currPos.y - endPos.y);
             if(tempheu < heu) {
                 heu = tempheu;
                 index = i;
@@ -101,7 +101,12 @@ void solve() {
         if(currMap->value == 'E') break;
 
         for(int i = 0; i < 4; i++) {
-            Map* newMap = &sMap[currMap->currPos.y + moveY[i]][currMap->currPos.x] + moveX[i];
+            int newY = currMap->currPos.y + moveY[i];
+            int newX = currMap->currPos.x + moveX[i];
+
+            if(newY < 0 || newY >= 10 || newX < 0 || newX >= 15) continue;
+
+            Map* newMap = &sMap[newY][newX];
             bool inList = false;
 
             for(int j = 0; j < listMap.size(); j++) {
