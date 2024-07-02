@@ -14,6 +14,19 @@ struct Node* newNode(int value) {
     return node;
 }
 
+// Function to find the minimum value node
+struct Node* findMin(struct Node* root) {
+    if (root == NULL) {
+        return root;
+    }
+
+    if (root->left != NULL) {
+        return findMin(root->left);
+    }
+
+    return root;
+}
+
 // Insert node
 struct Node* insert(struct Node* root, int value) {
     if (root == NULL) {
@@ -91,18 +104,6 @@ struct Node* search(struct Node* root, int val) {
     }
 
     return search(root->right, val);
-}
-
-struct Node* findMin(struct Node* root) {
-    if (root == NULL) {
-        return root;
-    }
-
-    if (root->left != NULL) {
-        return findMin(root->left);
-    }
-
-    return root;
 }
 
 int main() {
